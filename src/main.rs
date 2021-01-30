@@ -1,10 +1,35 @@
 use chrono::Local;
 use chrono::{Datelike, NaiveDate};
+use core::str::FromStr;
 use structopt::StructOpt;
+
+#[derive(Debug)]
+enum DateTagType {
+    Year,
+    Month,
+    Day,
+}
+
+impl FromStr for DateTagType {
+    type Err = String;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+
+        match s.to_lowercase().trim() {
+            "year" => Ok(DateTagType::Year),
+            "month" => Ok(DateTagType::Month),
+            "day" => Ok(DateTagType::Day),
+            _ => Err(String::from("unkown label"))
+        }
+    }
+}
 
 #[derive(Debug, StructOpt)]
 #[structopt(name = "datetag", about = "display a customizable date tag")]
 struct Opt {
+    /// tag type
+    #[structopt(short, long, default_value = "month")]
+    tag_type: DateTagType,
+
     /// tag prefix
     #[structopt(short, long)]
     prefix: Option<String>,
