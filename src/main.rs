@@ -1,3 +1,26 @@
+//! datetag a simple application to generatate e manage date tags.
+//! A datetag is a label similar to 
+//! * 20201113
+//! * TEST_202008
+//! 
+//! datetag contains:
+//!  * an optional prefix (e.g. 'TEST_')
+//!  * a date reference
+//! 
+//! datetag references belong to one of the following types:
+//!  * YEARLY (i.e. match the format '%Y')
+//!  * MONTHLY (i.e. match the format '%Y%m')
+//!  * DAILY (i.e. match the format '%Y%m&d')
+//! 
+//! It is possible to add/subtract an offset to specific datetag.
+//! The offset value reprensents:
+//!  * years
+//!  * months
+//!  * days
+//! depending on the datetag type.
+//! 
+//! It is possible to obtain the NOW datetag or provide a date reference.
+
 use anyhow::{Context, Result};
 use chrono::{Datelike, Duration, Local, NaiveDate};
 use core::str::FromStr;
@@ -12,7 +35,7 @@ enum DateTagType {
 
 /// associate a specific string format to each value
 impl DateTagType {
-    fn format(&self) -> &str {
+    fn get_format(&self) -> &str {
         match *self {
             DateTagType::Yearly => "%Y",
             DateTagType::Monthly => "%Y%m",
@@ -63,7 +86,7 @@ fn main() -> Result<()> {
 
     // parse date related parameters
     let date: NaiveDate = match opt.date {
-        Some(v) => NaiveDate::parse_from_str(&v, &opt.tag_type.format())
+        Some(v) => NaiveDate::parse_from_str(&v, &opt.tag_type.get_format())
             .with_context(|| format!("date does not match format"))?,
         None => Local::now().naive_local().date(),
     };
@@ -87,7 +110,7 @@ fn main() -> Result<()> {
     print!(
         "{}{}",
         opt.prefix.unwrap_or_default(),
-        date.format(&opt.tag_type.format())
+        date.format(&opt.tag_type.get_format())
     );
 
     Ok(())
