@@ -59,7 +59,7 @@ impl FromStr for DateTagType {
 #[derive(Debug, StructOpt)]
 #[structopt(name = "datetag", about = "display a customizable date tag")]
 struct Opt {
-    /// tag type [d | m | y ]
+    /// tag type [d | m | y]
     #[structopt(short, long, default_value = "m")]
     tag_type: DateTagType,
 
