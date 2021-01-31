@@ -1,5 +1,5 @@
-use chrono::Duration;
-use chrono::{Datelike, Local, NaiveDate};
+use anyhow::{Context, Result};
+use chrono::{Datelike, Duration, Local, NaiveDate};
 use core::str::FromStr;
 use structopt::StructOpt;
 
@@ -36,8 +36,8 @@ impl FromStr for DateTagType {
 #[derive(Debug, StructOpt)]
 #[structopt(name = "datetag", about = "display a customizable date tag")]
 struct Opt {
-    /// tag type
-    #[structopt(short, long, default_value = "monthly")]
+    /// tag type [d | m | y ]
+    #[structopt(short, long, default_value = "m")]
     tag_type: DateTagType,
 
     /// tag prefix
@@ -57,15 +57,14 @@ struct Opt {
     sub: Option<u32>,
 }
 
-fn main() {
+fn main() -> Result<()> {
     // parse command-line parameters
     let opt = Opt::from_args();
 
     // parse date related parameters
     let date: NaiveDate = match opt.date {
-        Some(v) => {
-            NaiveDate::parse_from_str(&v, &opt.tag_type.format()).expect("wrong date format")
-        }
+        Some(v) => NaiveDate::parse_from_str(&v, &opt.tag_type.format())
+            .with_context(|| format!("date does not match format"))?,
         None => Local::now().naive_local().date(),
     };
 
@@ -81,7 +80,7 @@ fn main() {
         }
         DateTagType::Daily => date
             .checked_add_signed(Duration::days(offset as i64))
-            .expect("wrong date offset"),
+            .with_context(|| format!("wrong date offset"))?,
     };
 
     // display date tag
@@ -89,5 +88,7 @@ fn main() {
         "{}{}",
         opt.prefix.unwrap_or_default(),
         date.format(&opt.tag_type.format())
-    )
+    );
+
+    Ok(())
 }
