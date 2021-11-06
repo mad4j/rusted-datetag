@@ -98,8 +98,8 @@ fn main() -> Result<()> {
     let date = match opt.tag_type {
         DateTagType::Yearly => NaiveDate::from_ymd(date.year() + offset, date.month(), date.day()),
         DateTagType::Monthly => {
-            let d = 12 * date.year() + offset;
-            NaiveDate::from_ymd(d / 12, (d as u32 % 12) + 1, 1)
+            let d = 12 * date.year() + date.month() as i32 + offset;
+            NaiveDate::from_ymd(d / 12, d as u32 % 12, 1)
         }
         DateTagType::Daily => date
             .checked_add_signed(Duration::days(offset as i64))
