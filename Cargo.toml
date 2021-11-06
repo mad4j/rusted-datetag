@@ -2,7 +2,7 @@
 name = "datetag"
 version = "0.1.0"
 authors = ["Daniele Olmisani <daniele.olmisani@gmail.com>"]
-license = "GPL-3.0 License"
+license = "GPL-3.0"
 edition = "2018"
 description = "datetag is a simple application to generatate e manage date tags"
 readme = "README.md"
