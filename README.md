@@ -2,7 +2,7 @@
 
 ```
 datetag 0.1.0
-display a customizable date tag
+display a customizable date tag (e.g. TEST_202110)
 
 USAGE:
     datetag.exe [OPTIONS]
