@@ -1,24 +1,24 @@
 //! datetag is a simple application to generatate e manage date tags.
-//! A datetag is a label similar to 
+//! A datetag is a label similar to
 //! * 20201113
 //! * TEST_202008
-//! 
+//!
 //! datetag contains:
 //!  * an optional prefix (e.g. 'TEST_')
 //!  * a date reference
-//! 
+//!
 //! datetag references belong to one of the following types:
 //!  * YEARLY (i.e. match the format '%Y')
 //!  * MONTHLY (i.e. match the format '%Y%m')
 //!  * DAILY (i.e. match the format '%Y%m&d')
-//! 
+//!
 //! It is possible to add/subtract an offset to specific datetag.
 //! The offset value reprensents:
 //!  * years
 //!  * months
 //!  * days
 //! depending on the datetag type.
-//! 
+//!
 //! It is possible to obtain the NOW datetag or provide a date reference.
 
 use anyhow::{Context, Result};
