@@ -1,5 +1,6 @@
 # datetag
 ![Crates.io](https://img.shields.io/crates/v/datetag)
+![Crates.io](https://img.shields.io/crates/l/datetag)
 ```
 datetag 0.1.0
 display a customizable date tag (e.g. TEST_202110)
