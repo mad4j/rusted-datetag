@@ -1,6 +1,6 @@
 # datetag
 
-```
+``` bash
 datetag 0.1.0
 display a customizable date tag (e.g. TEST_202110)
 
