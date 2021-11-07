@@ -1,4 +1,4 @@
-# rusted-datetag
+# datetag
 
 ```
 datetag 0.1.0
