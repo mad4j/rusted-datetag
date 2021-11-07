@@ -1,5 +1,8 @@
 # datetag
 
+[![Crate](https://img.shields.io/crates/v/datetag)](https://crates.io/crates/datetag)
+![Crates.io](https://img.shields.io/crates/l/datetag)
+
 ``` bash
 datetag 0.1.0
 display a customizable date tag (e.g. TEST_202110)
