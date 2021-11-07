@@ -1,6 +1,6 @@
 [package]
 name = "datetag"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Daniele Olmisani <daniele.olmisani@gmail.com>"]
 license = "GPL-3.0"
 edition = "2018"
@@ -16,5 +16,4 @@ categories = ["command-line-utilities"]
 [dependencies]
 chrono = "0.4"
 structopt = "0.3"
-colored = "2.0"
 anyhow = "1.0"

@@ -1,5 +1,5 @@
-//! datetag is a simple application to generatate e manage date tags.
-//! A datetag is a label similar to
+//! datetag allows to generatate and manage date tags (e.g. TEST_202008).
+//! A datetag is a label similar to:
 //! * 20201113
 //! * TEST_202008
 //!
