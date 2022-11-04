@@ -88,10 +88,11 @@ fn main() -> Result<()> {
     let opt = Opt::from_args();
 
     // parse date related parameters
-    let date: NaiveDate = match opt.date {
-        Some(v) => NaiveDate::parse_from_str(&v, opt.tag_type.get_format())
-            .with_context(|| "date does not match format".to_string())?,
-        None => Local::now().naive_local().date(),
+    let date: NaiveDate = if let Some(v) = opt.date {
+        NaiveDate::parse_from_str(&v, opt.tag_type.get_format())
+            .with_context(|| "date does not match format".to_string())?
+    } else {
+        Local::now().naive_local().date()
     };
 
     // parse offset related parameters
