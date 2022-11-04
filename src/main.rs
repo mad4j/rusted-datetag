@@ -86,8 +86,8 @@ fn main() -> Result<()> {
 
     // parse date related parameters
     let date: NaiveDate = match opt.date {
-        Some(v) => NaiveDate::parse_from_str(&v, &opt.tag_type.get_format())
-            .with_context(|| format!("date does not match format"))?,
+        Some(v) => NaiveDate::parse_from_str(&v, opt.tag_type.get_format())
+            .with_context(|| "date does not match format".to_string())?,
         None => Local::now().naive_local().date(),
     };
 
@@ -103,14 +103,14 @@ fn main() -> Result<()> {
         }
         DateTagType::Daily => date
             .checked_add_signed(Duration::days(offset as i64))
-            .with_context(|| format!("wrong date offset"))?,
+            .with_context(|| "wrong date offset".to_string())?,
     };
 
     // display date tag
     print!(
         "{}{}",
         opt.prefix.unwrap_or_default(),
-        date.format(&opt.tag_type.get_format())
+        date.format(opt.tag_type.get_format())
     );
 
     Ok(())
