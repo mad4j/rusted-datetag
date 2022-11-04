@@ -59,10 +59,19 @@ impl FromStr for DateTagType {
 #[derive(Debug, StructOpt)]
 #[structopt(
     name = "datetag",
-    about = "display a customizable date tag (e.g. TEST_202110)"
+    about = r#"display a customizable date tag (e.g. TEST_202110)
+
+EXAMPLES:
+ 
+    $ datetag --add 22 --date 20220312 --prefix 'TEST_' --tag-type daily
+    TEST_20220403
+
+    $ datetag -a 22 -d 20220312 -p 'TEST_' -t d
+    TEST_20220403"#,
 )]
+
 struct Opt {
-    /// tag type [d | m | y]
+    /// tag type [d | m | y | daily | monthly | yearly]
     #[structopt(short, long, default_value = "m")]
     tag_type: DateTagType,
 
