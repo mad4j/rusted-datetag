@@ -26,6 +26,8 @@ use chrono::{Datelike, Duration, Local, NaiveDate};
 use core::str::FromStr;
 use structopt::StructOpt;
 
+mod utils;
+
 #[derive(Debug)]
 enum DateTagType {
     Yearly,
@@ -67,7 +69,7 @@ EXAMPLES:
     TEST_20220403
 
     $ datetag -a 22 -d 20220312 -p 'TEST_' -t d
-    TEST_20220403"#,
+    TEST_20220403"#
 )]
 
 struct Opt {
@@ -79,9 +81,9 @@ struct Opt {
     #[structopt(short, long)]
     prefix: Option<String>,
 
-    /// date tag value
-    #[structopt(short, long)]
-    date: Option<String>,
+    /// date tag value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
+    #[structopt(short, long, parse(try_from_str = utils::try_date_from_str))]
+    date: Option<NaiveDate>,
 
     /// date tag positive offset
     #[structopt(short, long, conflicts_with = "sub")]
@@ -97,12 +99,7 @@ fn main() -> Result<()> {
     let opt = Opt::from_args();
 
     // parse date related parameters
-    let date: NaiveDate = if let Some(v) = opt.date {
-        NaiveDate::parse_from_str(&v, opt.tag_type.get_format())
-            .with_context(|| "date does not match format".to_string())?
-    } else {
-        Local::now().naive_local().date()
-    };
+    let date = opt.date.unwrap_or(Local::now().naive_local().date());
 
     // parse offset related parameters
     let offset: i32 = opt.add.unwrap_or_default() as i32 - opt.sub.unwrap_or_default() as i32;
