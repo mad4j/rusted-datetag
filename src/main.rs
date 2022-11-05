@@ -21,42 +21,14 @@
 //!
 //! It is possible to obtain the NOW datetag or provide a date reference.
 
-use anyhow::{Context, Result};
-use chrono::{Datelike, Duration, Local, NaiveDate};
-use core::str::FromStr;
-use structopt::StructOpt;
-
+mod datetag;
 mod utils;
 
-#[derive(Debug)]
-enum DateTagType {
-    Yearly,
-    Monthly,
-    Daily,
-}
+use anyhow::{Context, Result};
+use chrono::{Local, NaiveDate};
+use structopt::StructOpt;
 
-/// associate a specific string format to each value
-impl DateTagType {
-    fn get_format(&self) -> &str {
-        match *self {
-            DateTagType::Yearly => "%Y",
-            DateTagType::Monthly => "%Y%m",
-            DateTagType::Daily => "%Y%m%d",
-        }
-    }
-}
-
-impl FromStr for DateTagType {
-    type Err = i32;
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s.to_lowercase().trim() {
-            "y" | "yearly" => Ok(DateTagType::Yearly),
-            "m" | "monthly" => Ok(DateTagType::Monthly),
-            "d" | "daily" => Ok(DateTagType::Daily),
-            _ => Err(-1),
-        }
-    }
-}
+use datetag::DateTagType;
 
 #[derive(Debug, StructOpt)]
 #[structopt(
@@ -65,10 +37,10 @@ impl FromStr for DateTagType {
 
 EXAMPLES:
  
-    $ datetag --add 22 --date 20220312 --prefix 'TEST_' --tag-type daily
+    $ datetag --offset 22 --date 20220312 --prefix 'TEST_' --tag-type daily
     TEST_20220403
 
-    $ datetag -a 22 -d 20220312 -p 'TEST_' -t d
+    $ datetag -o 22 -d 20220312 -p 'TEST_' -t d
     TEST_20220403"#
 )]
 
@@ -85,13 +57,9 @@ struct Opt {
     #[structopt(short, long, parse(try_from_str = utils::try_date_from_str))]
     date: Option<NaiveDate>,
 
-    /// date tag positive offset
-    #[structopt(short, long, conflicts_with = "sub")]
-    add: Option<u32>,
-
-    /// date tag negative offset
-    #[structopt(short, long, conflicts_with = "add")]
-    sub: Option<u32>,
+    /// date tag offset
+    #[structopt(short, long, default_value = "0")]
+    offset: i32,
 }
 
 fn main() -> Result<()> {
@@ -99,22 +67,13 @@ fn main() -> Result<()> {
     let opt = Opt::from_args();
 
     // parse date related parameters
-    let date = opt.date.unwrap_or(Local::now().naive_local().date());
-
-    // parse offset related parameters
-    let offset: i32 = opt.add.unwrap_or_default() as i32 - opt.sub.unwrap_or_default() as i32;
+    let date = opt
+        .date
+        .unwrap_or_else(|| Local::now().naive_local().date());
 
     // apply date offset
-    let date = match opt.tag_type {
-        DateTagType::Yearly => NaiveDate::from_ymd(date.year() + offset, date.month(), date.day()),
-        DateTagType::Monthly => {
-            let d = 12 * date.year() + date.month() as i32 + offset;
-            NaiveDate::from_ymd(d / 12, d as u32 % 12, 1)
-        }
-        DateTagType::Daily => date
-            .checked_add_signed(Duration::days(offset as i64))
-            .with_context(|| "wrong date offset".to_string())?,
-    };
+    let date = utils::checked_add_offset(&date, opt.offset, &opt.tag_type)
+        .with_context(|| "wrong date offset".to_string())?;
 
     // display date tag
     print!(
