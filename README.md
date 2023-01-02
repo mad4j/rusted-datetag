@@ -4,7 +4,6 @@
 ![Crates.io](https://img.shields.io/crates/l/datetag)
 
 ``` bash
-datetag 0.1.3
 display a customizable date tag (e.g. TEST_202110)
 
 EXAMPLES:
@@ -15,16 +14,26 @@ EXAMPLES:
     $ datetag -o 22 -d 20220312 -p 'TEST_' -t d
     TEST_20220403
 
-USAGE:
-    datetag.exe [OPTIONS]
+Usage: datetag.exe [OPTIONS]
 
-FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
+Options:
+  -t, --tag-type <TAG_TYPE>
+          tag type [d | m | y | daily | monthly | yearly]
 
-OPTIONS:
-    -d, --date <date>            date tag value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
-    -o, --offset <offset>        date tag offset [default: 0]
-    -p, --prefix <prefix>        tag prefix
-    -t, --tag-type <tag-type>    tag type [d | m | y | daily | monthly | yearly] [default: m]
+          [default: m]
+
+          Possible values:
+          - y
+          - yearly:  yearly tags (e.g. 2022)
+
+  -d, --date <DATE>
+          date tag value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
+
+  -o, --offset <OFFSET>
+          date tag offset
+
+          [default: 0]
+
+  -h, --help
+          Print help information (use `-h` for a summary)
 ```
