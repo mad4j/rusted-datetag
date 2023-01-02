@@ -25,6 +25,13 @@ Options:
           Possible values:
           - y
           - yearly:  yearly tags (e.g. 2022)
+          - m
+          - monthly: monthly tags (e.g. 202212)
+          - d
+          - daily:   daily tags (e.g. 20221230)
+
+  -p, --prefix <PREFIX>
+          tag prefix
 
   -d, --date <DATE>
           date tag value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
@@ -36,4 +43,7 @@ Options:
 
   -h, --help
           Print help information (use `-h` for a summary)
+
+  -V, --version
+          Print version information
 ```
