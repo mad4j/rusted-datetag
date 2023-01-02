@@ -1,9 +1,22 @@
 use core::str::FromStr;
 
-#[derive(Debug)]
+use clap::ValueEnum;
+
+#[derive(Debug, Clone, ValueEnum)]
 pub enum DateTagType {
+    Y,
+
+    /// yearly tags (e.g. 2022)
     Yearly,
+
+    M,
+
+    /// monthly tags (e.g. 202212)
     Monthly,
+
+    D,
+
+    /// daily tags (e.g. 20221230)
     Daily,
 }
 
@@ -11,9 +24,9 @@ pub enum DateTagType {
 impl DateTagType {
     pub fn get_format(&self) -> &str {
         match *self {
-            DateTagType::Yearly => "%Y",
-            DateTagType::Monthly => "%Y%m",
-            DateTagType::Daily => "%Y%m%d",
+            DateTagType::Yearly | DateTagType::Y => "%Y",
+            DateTagType::Monthly | DateTagType::M => "%Y%m",
+            DateTagType::Daily | DateTagType::D => "%Y%m%d",
         }
     }
 }

@@ -26,12 +26,12 @@ mod utils;
 
 use anyhow::{Context, Result};
 use chrono::{Local, NaiveDate};
-use structopt::StructOpt;
+use clap::Parser;
 
 use datetag::DateTagType;
 
-#[derive(Debug, StructOpt)]
-#[structopt(
+#[derive(Debug, Parser)]
+#[command(
     name = "datetag",
     about = r#"display a customizable date tag (e.g. TEST_202110)
 
@@ -46,25 +46,25 @@ EXAMPLES:
 
 struct Opt {
     /// tag type [d | m | y | daily | monthly | yearly]
-    #[structopt(short, long, default_value = "m")]
+    #[arg(value_enum, short, long, default_value = "m")]
     tag_type: DateTagType,
 
     /// tag prefix
-    #[structopt(short, long)]
+    #[arg(short, long)]
     prefix: Option<String>,
 
     /// date tag value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
-    #[structopt(short, long, parse(try_from_str = utils::try_date_from_str))]
+    #[arg(short, long, value_parser=utils::try_date_from_str)]
     date: Option<NaiveDate>,
 
     /// date tag offset
-    #[structopt(short, long, default_value = "0")]
+    #[arg(short, long, default_value = "0")]
     offset: i32,
 }
 
 fn main() -> Result<()> {
     // parse command-line parameters
-    let opt = Opt::from_args();
+    let opt = Opt::parse();
 
     // parse date related parameters
     let date = opt

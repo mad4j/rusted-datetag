@@ -15,5 +15,5 @@ categories = ["command-line-utilities"]
 
 [dependencies]
 chrono = "0.4"
-structopt = "0.3"
+clap = { version = "4.0.19", features = ["derive"] }
 anyhow = "1.0"
