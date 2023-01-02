@@ -33,6 +33,7 @@ use datetag::DateTagType;
 #[derive(Debug, Parser)]
 #[command(
     name = "datetag",
+    version,
     about = r#"display a customizable date tag (e.g. TEST_202110)
 
 EXAMPLES:

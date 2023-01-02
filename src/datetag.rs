@@ -5,17 +5,12 @@ use clap::ValueEnum;
 #[derive(Debug, Clone, ValueEnum)]
 pub enum DateTagType {
     Y,
-
     /// yearly tags (e.g. 2022)
     Yearly,
-
     M,
-
     /// monthly tags (e.g. 202212)
     Monthly,
-
     D,
-
     /// daily tags (e.g. 20221230)
     Daily,
 }
