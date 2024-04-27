@@ -70,7 +70,7 @@ struct Opt {
     #[arg(short, long, default_value = "false")]
     new_line: bool,
 
-    /// print help info as markdown document
+    /// print this help as markdown document
     #[arg(long)]
     markdown_help: bool,
 }
@@ -79,6 +79,7 @@ fn main() -> Result<()> {
     // parse command-line parameters
     let opt = Opt::parse();
 
+    // dump markdown help and exit
     if opt.markdown_help {
         clap_markdown::print_help_markdown::<Opt>();
         return Ok(());
@@ -99,11 +100,7 @@ fn main() -> Result<()> {
             .with_context(|| "wrong date offset".to_string())?;
 
         // display date tag
-        print!(
-            "{}{}",
-            prefix,
-            date.format(opt.tag_type.get_format())
-        );
+        print!("{}{}", prefix, date.format(opt.tag_type.get_format()));
 
         // append an end-of-line if requested or needed
         if opt.new_line || opt.repeat > 1 {
