@@ -34,7 +34,7 @@ use datetag::DateTagType;
 #[command(
     name = "datetag",
     version,
-    about = r#"display a customizable date tag (e.g. TEST_202110)
+    about = r#"Display a customizable date tag (e.g. TEST_202404)
 
 EXAMPLES:
  
@@ -46,31 +46,35 @@ EXAMPLES:
 )]
 
 struct Opt {
-    /// tag type [d | m | y | daily | monthly | yearly]
+    /// Tag type [d | m | y | daily | monthly | yearly]
     #[arg(value_enum, short, long, default_value = "m")]
     tag_type: DateTagType,
 
-    /// tag prefix
+    /// Tag prefix (e.g. 'LAB_202404)
     #[arg(short, long)]
     prefix: Option<String>,
 
-    /// date tag value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
+    /// Tag suffix (e.g. '202404_rel)
+    #[arg(short, long)]
+    suffix: Option<String>,
+
+    /// Date value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
     #[arg(short, long, value_parser=utils::try_date_from_str)]
     date: Option<NaiveDate>,
 
-    /// date tag offset
+    /// Date offset (offset unit depends on -t value)
     #[arg(short, long, default_value = "0")]
     offset: i32,
 
-    /// generate more date tags
+    /// Generate more date tags
     #[arg(short, long, default_value = "1")]
     repeat: u8,
 
-    /// append an end-of-line
+    /// Append an end-of-line to each generated tag
     #[arg(short, long, default_value = "false")]
     new_line: bool,
 
-    /// print this help as markdown document
+    /// Print this help as markdown document
     #[arg(long)]
     markdown_help: bool,
 }
@@ -93,6 +97,9 @@ fn main() -> Result<()> {
     // retrive date tag prefix label
     let prefix = opt.prefix.unwrap_or_default();
 
+    // retrive date tag suffix label
+    let suffix = opt.suffix.unwrap_or_default();
+
     // with no repetitions, apply offeset immediately
     if opt.repeat == 1 {
         // apply date offset
@@ -103,7 +110,10 @@ fn main() -> Result<()> {
     // generate date tags
     for _ in 1..=opt.repeat {
         // display date tag
-        print!("{}{}", prefix, date.format(opt.tag_type.get_format()));
+        print!("{}{}{}", 
+            prefix, 
+            date.format(opt.tag_type.get_format()),
+            suffix);
 
         // append an end-of-line if requested or needed
         if opt.new_line || opt.repeat > 1 {
