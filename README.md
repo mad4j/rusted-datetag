@@ -3,7 +3,7 @@
 [![Crate](https://img.shields.io/crates/v/datetag)](https://crates.io/crates/datetag)
 ![Crates.io](https://img.shields.io/crates/l/datetag)
 
-``` bash
+```bash
 display a customizable date tag (e.g. TEST_202110)
 
 EXAMPLES:
@@ -41,9 +41,12 @@ Options:
 
           [default: 0]
 
+  -n, --new-line
+          append an end-of-line
+
   -h, --help
-          Print help information (use `-h` for a summary)
+          Print help (see a summary with '-h')
 
   -V, --version
-          Print version information
+          Print version
 ```
