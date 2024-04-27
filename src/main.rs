@@ -62,6 +62,10 @@ struct Opt {
     #[arg(short, long, default_value = "0")]
     offset: i32,
 
+    /// generate more date tags
+    #[arg(short, long, default_value = "1")]
+    repeat: u8,
+
     /// append an end-of-line
     #[arg(short, long, default_value = "false")]
     new_line: bool,
@@ -77,28 +81,34 @@ fn main() -> Result<()> {
 
     if opt.markdown_help {
         clap_markdown::print_help_markdown::<Opt>();
-        return Ok(())
+        return Ok(());
     }
 
     // parse date related parameters
-    let date = opt
+    let mut date = opt
         .date
         .unwrap_or_else(|| Local::now().naive_local().date());
 
-    // apply date offset
-    let date = utils::checked_add_offset(&date, opt.offset, &opt.tag_type)
-        .with_context(|| "wrong date offset".to_string())?;
+    // retrive date tag prefix label
+    let prefix = opt.prefix.unwrap_or_default();
 
-    // display date tag
-    print!(
-        "{}{}",
-        opt.prefix.unwrap_or_default(),
-        date.format(opt.tag_type.get_format())
-    );
+    // generate date tags
+    for _ in 1..=opt.repeat {
+        // apply date offset
+        date = utils::checked_add_offset(&date, opt.offset, &opt.tag_type)
+            .with_context(|| "wrong date offset".to_string())?;
 
-    // append an end-of-line if requested
-    if opt.new_line {
-        println!();
+        // display date tag
+        print!(
+            "{}{}",
+            prefix,
+            date.format(opt.tag_type.get_format())
+        );
+
+        // append an end-of-line if requested or needed
+        if opt.new_line || opt.repeat > 1 {
+            println!();
+        }
     }
 
     Ok(())
