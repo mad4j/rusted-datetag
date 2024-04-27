@@ -51,7 +51,7 @@ EXAMPLES:
 
   Possible values: `true`, `false`
 
-* `--markdown-help` — print help info as markdown document
+* `--markdown-help` — print this help as markdown document
 
   Possible values: `true`, `false`
 
