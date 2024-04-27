@@ -69,7 +69,7 @@ mod tests {
     const DAY: u32 = 5;
 
     fn ref_date() -> NaiveDate {
-        NaiveDate::from_ymd(YEAR, MONTH, DAY)
+        NaiveDate::from_ymd_opt(YEAR, MONTH, DAY).unwrap()
     }
 
     #[test]
