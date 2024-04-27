@@ -110,10 +110,12 @@ fn main() -> Result<()> {
     // generate date tags
     for _ in 1..=opt.repeat {
         // display date tag
-        print!("{}{}{}", 
-            prefix, 
+        print!(
+            "{}{}{}",
+            prefix,
             date.format(opt.tag_type.get_format()),
-            suffix);
+            suffix
+        );
 
         // append an end-of-line if requested or needed
         if opt.new_line || opt.repeat > 1 {
