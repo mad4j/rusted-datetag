@@ -63,7 +63,7 @@ struct Opt {
     date: Option<NaiveDate>,
 
     /// Date offset (offset unit depends on -t value)
-    #[arg(short, long, default_value = "0")]
+    #[arg(short, long, allow_hyphen_values = true, default_value = "0")]
     offset: i32,
 
     /// Generate more date tags
