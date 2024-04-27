@@ -1,5 +1,3 @@
-use core::str::FromStr;
-
 use clap::ValueEnum;
 
 #[derive(Debug, Clone, ValueEnum)]
@@ -26,14 +24,34 @@ impl DateTagType {
     }
 }
 
-impl FromStr for DateTagType {
-    type Err = i32;
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s.to_lowercase().trim() {
-            "y" | "yearly" => Ok(DateTagType::Yearly),
-            "m" | "monthly" => Ok(DateTagType::Monthly),
-            "d" | "daily" => Ok(DateTagType::Daily),
-            _ => Err(-1),
-        }
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_format_year() {
+        // test year-related variants
+        let d = DateTagType::Yearly;
+        assert!(d.get_format() == "%Y");
+        let d = DateTagType::Y;
+        assert!(d.get_format() == "%Y");
+    }
+
+    #[test]
+    fn test_get_format_month() {
+        // test month-related variants
+        let d = DateTagType::Monthly;
+        assert!(d.get_format() == "%Y%m");
+        let d = DateTagType::M;
+        assert!(d.get_format() == "%Y%m");
+    }
+
+    #[test]
+    fn test_get_format_day() {
+        // test day-related variants
+        let d = DateTagType::Daily;
+        assert!(d.get_format() == "%Y%m%d");
+        let d = DateTagType::D;
+        assert!(d.get_format() == "%Y%m%d");
     }
 }
