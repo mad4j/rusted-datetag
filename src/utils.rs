@@ -29,6 +29,7 @@ pub fn checked_date_from_str(s: &str) -> Option<NaiveDate> {
         1
     };
 
+    // parse provided date
     NaiveDate::from_ymd_opt(y, m, d)
 }
 
