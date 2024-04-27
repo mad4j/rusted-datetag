@@ -93,12 +93,15 @@ fn main() -> Result<()> {
     // retrive date tag prefix label
     let prefix = opt.prefix.unwrap_or_default();
 
-    // generate date tags
-    for _ in 1..=opt.repeat {
+    // with no repetitions, apply offeset immediately
+    if opt.repeat == 1 {
         // apply date offset
         date = utils::checked_add_offset(&date, opt.offset, &opt.tag_type)
             .with_context(|| "wrong date offset".to_string())?;
+    }
 
+    // generate date tags
+    for _ in 1..=opt.repeat {
         // display date tag
         print!("{}{}", prefix, date.format(opt.tag_type.get_format()));
 
@@ -106,6 +109,10 @@ fn main() -> Result<()> {
         if opt.new_line || opt.repeat > 1 {
             println!();
         }
+
+        // apply date offset for the next repetition
+        date = utils::checked_add_offset(&date, opt.offset, &opt.tag_type)
+            .with_context(|| "wrong date offset".to_string())?;
     }
 
     Ok(())
