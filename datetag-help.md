@@ -42,6 +42,9 @@ EXAMPLES:
 * `-o`, `--offset <OFFSET>` — date tag offset
 
   Default value: `0`
+* `-r`, `--repeat <REPEAT>` — generate more date tags
+
+  Default value: `1`
 * `-n`, `--new-line` — append an end-of-line
 
   Default value: `false`
