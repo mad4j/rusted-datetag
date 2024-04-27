@@ -61,6 +61,10 @@ struct Opt {
     /// date tag offset
     #[arg(short, long, default_value = "0")]
     offset: i32,
+
+    /// append an end-of-line
+    #[arg(short, long, default_value = "false")]
+    new_line: bool,
 }
 
 fn main() -> Result<()> {
@@ -82,6 +86,11 @@ fn main() -> Result<()> {
         opt.prefix.unwrap_or_default(),
         date.format(opt.tag_type.get_format())
     );
+
+    // append an end-of-line if requested
+    if opt.new_line {
+        println!();
+    }
 
     Ok(())
 }
