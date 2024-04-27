@@ -73,6 +73,29 @@ mod tests {
     }
 
     #[test]
+    fn test_try_date_from_str_valid() {
+        let d = try_date_from_str("2024").unwrap();
+        assert_eq!(d.year(), 2024);
+        let d = try_date_from_str("202404").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        let d = try_date_from_str("20240403").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        assert_eq!(d.day(), 3);
+    }
+
+    #[test]
+    fn test_try_date_from_str_invalid() {
+        let r = try_date_from_str("");
+        assert!(r.is_err());
+        let r = try_date_from_str("abcd");
+        assert!(r.is_err());
+        let r = try_date_from_str("123456");
+        assert!(r.is_err());
+    }
+
+    #[test]
     fn test_checked_date_from_str_empty() {
         let o = checked_date_from_str("");
         assert!(o.is_none());
@@ -184,6 +207,42 @@ mod tests {
 
         assert_eq!(date.year(), YEAR);
         assert_eq!(date.month(), MONTH - 1);
+        assert_eq!(date.day(), DAY);
+    }
+
+    #[test]
+    fn test_checked_add_offset_positive_month() {
+        let date = checked_add_offset(&ref_date(), 1, &DateTagType::Monthly).unwrap();
+
+        assert_eq!(date.year(), YEAR);
+        assert_eq!(date.month(), MONTH+1);
+        assert_eq!(date.day(), DAY);
+    }
+
+    #[test]
+    fn test_checked_add_offset_negative_month() {
+        let date = checked_add_offset(&ref_date(), -1, &DateTagType::Monthly).unwrap();
+
+        assert_eq!(date.year(), YEAR);
+        assert_eq!(date.month(), MONTH-1);
+        assert_eq!(date.day(), DAY);
+    }
+
+    #[test]
+    fn test_checked_add_offset_positive_month_wrapping_year() {
+        let date = checked_add_offset(&ref_date(), 3, &DateTagType::Monthly).unwrap();
+
+        assert_eq!(date.year(), YEAR+1);
+        assert_eq!(date.month(), 1);
+        assert_eq!(date.day(), DAY);
+    }
+
+    #[test]
+    fn test_checked_add_offset_negative_month_wrapping_year() {
+        let date = checked_add_offset(&ref_date(), -12, &DateTagType::Monthly).unwrap();
+
+        assert_eq!(date.year(), YEAR-1);
+        assert_eq!(date.month(), MONTH);
         assert_eq!(date.day(), DAY);
     }
 }
