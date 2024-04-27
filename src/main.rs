@@ -4,7 +4,7 @@
 //! * TEST_202008
 //!
 //! datetag contains:
-//!  * an optional prefix (e.g. 'TEST_')
+//!  * an optional prefix label (e.g. 'TEST_')
 //!  * a date reference
 //!
 //! datetag references belong to one of the following types:
@@ -19,7 +19,7 @@
 //!  * days
 //! depending on the datetag type.
 //!
-//! It is possible to obtain the NOW datetag or provide a date reference.
+//! It is possible to obtain the NOW datetag or provide a  reference date.
 
 mod datetag;
 mod utils;
