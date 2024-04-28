@@ -58,12 +58,12 @@ fn test_date_valid_day_prefix() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn test_date_valid_day_suffix() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td -s _rel", "20240427_rel")
+    test_on_stdout("-d 20240427 -td -x _rel", "20240427_rel")
 }
 
 #[test]
 fn test_date_valid_day_prefix_and_suffix() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td -p LAB- -s _rel", "LAB-20240427_rel")
+    test_on_stdout("-d 20240427 -td -p LAB- -x _rel", "LAB-20240427_rel")
 }
 
 #[test]
@@ -80,7 +80,6 @@ fn test_date_valid_day_offset() -> Result<(), Box<dyn std::error::Error>> {
 fn test_date_valid_day_offset_negative() -> Result<(), Box<dyn std::error::Error>> {
     test_on_stdout("-d 20240427 -td -o -1", "20240426")
 }
-
 
 #[test]
 fn test_markdown_help() -> Result<(), Box<dyn std::error::Error>> {
