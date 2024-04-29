@@ -10,4 +10,6 @@ pub enum DateStyle {
     Slash,
     /// yyyy:mm:dd
     Colon,
+    /// yyyy-mm-dd
+    Dash,
 }

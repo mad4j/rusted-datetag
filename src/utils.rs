@@ -1,5 +1,5 @@
 use chrono::{Duration, Months, NaiveDate};
-use core::str::FromStr;
+use regex::Regex;
 
 use crate::datetag::DateTagType;
 
@@ -8,29 +8,23 @@ pub fn try_date_from_str(s: &str) -> Result<NaiveDate, &'static str> {
 }
 
 pub fn checked_date_from_str(s: &str) -> Option<NaiveDate> {
-    // avoid out of bound panic
-    let y = if s.len() > 3 {
-        i32::from_str(&s[0..4]).ok()?
-    } else {
-        None?
-    };
 
-    // avoid out of bound panic
-    let m = if s.len() > 5 {
-        u32::from_str(&s[4..6]).ok()?
-    } else {
-        1
-    };
+    // remove any non-digit character
+    let re = Regex::new("[^0-9]").unwrap();
+    let mut temp = re.replace_all(s, "").to_string();
 
-    // avoid out of bound panic
-    let d = if s.len() > 7 {
-        u32::from_str(&s[6..8]).ok()?
-    } else {
-        1
-    };
+    // add a month, if needed
+    if temp.len() == 4 {
+        temp.push_str("01");
+    }
 
-    // parse provided date
-    NaiveDate::from_ymd_opt(y, m, d)
+    // add a day, if needed
+    if temp.len() == 6 {
+        temp.push_str("01");
+    }
+
+    // try to convert using default date format
+    NaiveDate::parse_from_str(&temp, "%Y%m%d").ok()
 }
 
 pub fn checked_add_offset(
@@ -91,6 +85,14 @@ mod tests {
         let r = try_date_from_str("");
         assert!(r.is_err());
         let r = try_date_from_str("abcd");
+        assert!(r.is_err());
+        let r = try_date_from_str("1");
+        assert!(r.is_err());
+        let r = try_date_from_str("12");
+        assert!(r.is_err());
+        let r = try_date_from_str("123");
+        assert!(r.is_err());
+        let r = try_date_from_str("12345");
         assert!(r.is_err());
         let r = try_date_from_str("123456");
         assert!(r.is_err());

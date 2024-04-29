@@ -13,7 +13,7 @@
 //!  * YEARLY (i.e. match the format '%Y')
 //!  * MONTHLY (i.e. match the format '%Y%m')
 //!  * DAILY (i.e. match the format '%Y%m&d')
-//! 
+//!
 //! datetag refereces can be plain formated (e.g. 20240424) or
 //! formatted using a separator character (i.e. '.', ':' or '/'):
 //!  * 2024.04.24
@@ -32,7 +32,7 @@
 //! date. Otherwise, the first datetag will represents the given
 //! reference date and the offset will be will be used to increase
 //! subsequent datetags.
-//! 
+//!
 //! It is possible to obtain the NOW datetag or provide the current
 //! reference date.
 
