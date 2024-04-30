@@ -68,7 +68,7 @@ mod tests {
     }
 
     #[test]
-    fn test_try_date_from_str_valid() {
+    fn test_try_date_from_str_valid_plain() {
         let d = try_date_from_str("2024").unwrap();
         assert_eq!(d.year(), 2024);
         let d = try_date_from_str("202404").unwrap();
@@ -79,6 +79,59 @@ mod tests {
         assert_eq!(d.month(), 4);
         assert_eq!(d.day(), 3);
     }
+
+    #[test]
+    fn test_try_date_from_str_valid_dash() {
+        let d = try_date_from_str("2024").unwrap();
+        assert_eq!(d.year(), 2024);
+        let d = try_date_from_str("2024-04").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        let d = try_date_from_str("2024-04-03").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        assert_eq!(d.day(), 3);
+    }
+
+    #[test]
+    fn test_try_date_from_str_valid_dot() {
+        let d = try_date_from_str("2024").unwrap();
+        assert_eq!(d.year(), 2024);
+        let d = try_date_from_str("2024.04").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        let d = try_date_from_str("2024.04.03").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        assert_eq!(d.day(), 3);
+    }
+
+    #[test]
+    fn test_try_date_from_str_valid_slash() {
+        let d = try_date_from_str("2024").unwrap();
+        assert_eq!(d.year(), 2024);
+        let d = try_date_from_str("2024/04").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        let d = try_date_from_str("2024/04/03").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        assert_eq!(d.day(), 3);
+    }
+
+    #[test]
+    fn test_try_date_from_str_valid_colon() {
+        let d = try_date_from_str("2024").unwrap();
+        assert_eq!(d.year(), 2024);
+        let d = try_date_from_str("2024:04").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        let d = try_date_from_str("2024:04:03").unwrap();
+        assert_eq!(d.year(), 2024);
+        assert_eq!(d.month(), 4);
+        assert_eq!(d.day(), 3);
+    }
+
 
     #[test]
     fn test_try_date_from_str_invalid() {
