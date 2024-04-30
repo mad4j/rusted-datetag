@@ -3,6 +3,8 @@
 [![Crate](https://img.shields.io/crates/v/datetag)](https://crates.io/crates/datetag)
 ![Crates.io](https://img.shields.io/crates/l/datetag)
 
+![icon](icon.png)
+
 ```text
 Display a customizable date tag (e.g. TEST_202404)
 
