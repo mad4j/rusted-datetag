@@ -121,7 +121,7 @@ fn main() -> Result<()> {
     // retrive date tag suffix label
     let suffix = opt.suffix.unwrap_or_default();
 
-    // with no repetitions, apply offeset immediately
+    // with no repetitions, apply offset immediately
     if opt.repeat == 1 {
         // apply date offset
         date = utils::checked_add_offset(&date, opt.offset, &opt.tag_type)
