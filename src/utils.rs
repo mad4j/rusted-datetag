@@ -1,7 +1,7 @@
 use chrono::{Duration, Months, NaiveDate};
 use regex::Regex;
 
-use crate::datetag::DateTagType;
+use crate::datetag::DateTag;
 
 pub fn try_date_from_str(s: &str) -> Result<NaiveDate, &'static str> {
     checked_date_from_str(s).ok_or("conversion error")
@@ -29,25 +29,25 @@ pub fn checked_date_from_str(s: &str) -> Option<NaiveDate> {
 pub fn checked_add_offset(
     date: &NaiveDate,
     offset: i32,
-    tag_type: &DateTagType,
+    tag_type: &DateTag,
 ) -> Option<NaiveDate> {
     // apply date offset
     match tag_type {
-        DateTagType::Yearly | DateTagType::Y => {
+        DateTag::Yearly | DateTag::Y => {
             if offset > 0 {
                 date.checked_add_months(Months::new((offset * 12) as u32))
             } else {
                 date.checked_sub_months(Months::new((-offset * 12) as u32))
             }
         }
-        DateTagType::Monthly | DateTagType::M => {
+        DateTag::Monthly | DateTag::M => {
             if offset > 0 {
                 date.checked_add_months(Months::new(offset as u32))
             } else {
                 date.checked_sub_months(Months::new(-offset as u32))
             }
         }
-        DateTagType::Daily | DateTagType::D => {
+        DateTag::Daily | DateTag::D => {
             date.checked_add_signed(Duration::days(offset as i64))
         }
     }
@@ -195,7 +195,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_positive_year() {
-        let date = checked_add_offset(&ref_date(), 1, &DateTagType::Yearly).unwrap();
+        let date = checked_add_offset(&ref_date(), 1, &DateTag::Yearly).unwrap();
         assert_eq!(date.year(), YEAR + 1);
         assert_eq!(date.month(), MONTH);
         assert_eq!(date.day(), DAY);
@@ -203,7 +203,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_negative_year() {
-        let date = checked_add_offset(&ref_date(), -1, &DateTagType::Yearly).unwrap();
+        let date = checked_add_offset(&ref_date(), -1, &DateTag::Yearly).unwrap();
 
         assert_eq!(date.year(), YEAR - 1);
         assert_eq!(date.month(), MONTH);
@@ -212,7 +212,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_positive_year_wrapping_century() {
-        let date = checked_add_offset(&ref_date(), 100, &DateTagType::Yearly).unwrap();
+        let date = checked_add_offset(&ref_date(), 100, &DateTag::Yearly).unwrap();
 
         assert_eq!(date.year(), YEAR + 100);
         assert_eq!(date.month(), MONTH);
@@ -221,7 +221,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_negative_year_wrapping_century() {
-        let date = checked_add_offset(&ref_date(), -100, &DateTagType::Yearly).unwrap();
+        let date = checked_add_offset(&ref_date(), -100, &DateTag::Yearly).unwrap();
 
         assert_eq!(date.year(), YEAR - 100);
         assert_eq!(date.month(), MONTH);
@@ -230,7 +230,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_positive_day() {
-        let date = checked_add_offset(&ref_date(), 1, &DateTagType::Daily).unwrap();
+        let date = checked_add_offset(&ref_date(), 1, &DateTag::Daily).unwrap();
 
         assert_eq!(date.year(), YEAR);
         assert_eq!(date.month(), MONTH);
@@ -239,7 +239,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_negative_day() {
-        let date = checked_add_offset(&ref_date(), -1, &DateTagType::Daily).unwrap();
+        let date = checked_add_offset(&ref_date(), -1, &DateTag::Daily).unwrap();
 
         assert_eq!(date.year(), YEAR);
         assert_eq!(date.month(), MONTH);
@@ -248,7 +248,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_positive_day_wrapping_month() {
-        let date = checked_add_offset(&ref_date(), 30, &DateTagType::Daily).unwrap();
+        let date = checked_add_offset(&ref_date(), 30, &DateTag::Daily).unwrap();
 
         assert_eq!(date.year(), YEAR);
         assert_eq!(date.month(), MONTH + 1);
@@ -257,7 +257,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_negative_day_wrapping_month() {
-        let date = checked_add_offset(&ref_date(), -30, &DateTagType::Daily).unwrap();
+        let date = checked_add_offset(&ref_date(), -30, &DateTag::Daily).unwrap();
 
         assert_eq!(date.year(), YEAR);
         assert_eq!(date.month(), MONTH - 1);
@@ -266,7 +266,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_positive_month() {
-        let date = checked_add_offset(&ref_date(), 1, &DateTagType::Monthly).unwrap();
+        let date = checked_add_offset(&ref_date(), 1, &DateTag::Monthly).unwrap();
 
         assert_eq!(date.year(), YEAR);
         assert_eq!(date.month(), MONTH + 1);
@@ -275,7 +275,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_negative_month() {
-        let date = checked_add_offset(&ref_date(), -1, &DateTagType::Monthly).unwrap();
+        let date = checked_add_offset(&ref_date(), -1, &DateTag::Monthly).unwrap();
 
         assert_eq!(date.year(), YEAR);
         assert_eq!(date.month(), MONTH - 1);
@@ -284,7 +284,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_positive_month_wrapping_year() {
-        let date = checked_add_offset(&ref_date(), 3, &DateTagType::Monthly).unwrap();
+        let date = checked_add_offset(&ref_date(), 3, &DateTag::Monthly).unwrap();
 
         assert_eq!(date.year(), YEAR + 1);
         assert_eq!(date.month(), 1);
@@ -293,7 +293,7 @@ mod tests {
 
     #[test]
     fn test_checked_add_offset_negative_month_wrapping_year() {
-        let date = checked_add_offset(&ref_date(), -12, &DateTagType::Monthly).unwrap();
+        let date = checked_add_offset(&ref_date(), -12, &DateTag::Monthly).unwrap();
 
         assert_eq!(date.year(), YEAR - 1);
         assert_eq!(date.month(), MONTH);

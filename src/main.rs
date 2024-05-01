@@ -46,12 +46,11 @@ use chrono::{Local, NaiveDate};
 use clap::Parser;
 
 use datestyle::DateStyle;
-use datetag::DateTagType;
+use datetag::DateTag;
 
 #[derive(Debug, Parser)]
 #[command(
     name = "datetag",
-    author = "Daniele Olmisani <daniele.olmisani@gmail.com>",
     version,
     about = texts::ABOUT,
     long_about = None,
@@ -66,8 +65,8 @@ struct Args {
     date: Option<NaiveDate>,
 
     /// Tag type [d | m | y | daily | monthly | yearly]
-    #[arg(value_enum, short, long, default_value_t = DateTagType::M)]
-    tag_type: DateTagType,
+    #[arg(value_enum, short, long, default_value_t = DateTag::M)]
+    tag_type: DateTag,
 
     /// Date tag style
     #[arg(value_enum, short, long, default_value_t = DateStyle::Plain)]

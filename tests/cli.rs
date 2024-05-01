@@ -73,7 +73,7 @@ fn test_date_valid_day_repeat() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn test_date_valid_day_offset() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("20240427 -td -o 1", "20240428")
+    test_on_stdout("20240427 -td -o1", "20240428")
 }
 
 #[test]
