@@ -14,4 +14,3 @@ pub const EXAMPLES: &'static str = color_print::cstr!(
     TEST_20220403
 "#
 );
-
