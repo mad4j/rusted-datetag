@@ -6,17 +6,13 @@
 ![icon](icon.png)
 
 ```text
-Display a customizable date tag (e.g. TEST_202404)
+Display a customizable date tag (e.g. TEST_202404, 2024-04-03_rel, 2024.04.03)
 
-EXAMPLES:
- 
-    $ datetag --offset 22 --date 20220312 --prefix 'TEST_' --tag-type daily
-    TEST_20220403
+Usage: datetag.exe [OPTIONS] [DATE]
 
-    $ datetag -o 22 -d 20220312 -p 'TEST_' -t d
-    TEST_20220403
-
-Usage: datetag.exe [OPTIONS]
+Arguments:
+  [DATE]
+          Reference date (e.g. 'yyyymmdd', 'yyyymm', 'yyyy', allowed field separators: '.-/:')
 
 Options:
   -t, --tag-type <TAG_TYPE>
@@ -50,9 +46,6 @@ Options:
   -x, --suffix <SUFFIX>
           Tag suffix (e.g. '202404_rel')
 
-  -d, --date <DATE>
-          Date value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
-
   -o, --offset <OFFSET>
           Date offset (offset unit depends on -t value)
 
@@ -66,12 +59,19 @@ Options:
   -n, --new-line
           Append an end-of-line to each generated tag
 
-      --markdown-help
-          Print this help as markdown document
-
   -h, --help
           Print help (see a summary with '-h')
 
   -V, --version
           Print version
+
+Examples:
+
+    $ datetag 20220312 --offset 22 --prefix 'TEST_' --tag-type daily
+    TEST_20220403
+
+    $ datetag 20220312 -o 22 -p 'TEST_' -td
+    TEST_20220403
+
+by Daniele Olmisani - daniele.olmisani@gmail.com
 ```
