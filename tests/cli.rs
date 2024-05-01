@@ -47,6 +47,66 @@ fn test_date_valid_year() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 #[test]
+fn test_date_valid_day_dot() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -td -s dot", "2024.04.27")
+}
+
+#[test]
+fn test_date_valid_month_dot() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -tm -s dot", "2024.04")
+}
+
+#[test]
+fn test_date_valid_year_dot() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -ty -s dot", "2024")
+}
+
+#[test]
+fn test_date_valid_day_dash() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -td -s dash", "2024-04-27")
+}
+
+#[test]
+fn test_date_valid_month_dash() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -tm -s dash", "2024-04")
+}
+
+#[test]
+fn test_date_valid_year_dash() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -ty -s dash", "2024")
+}
+
+#[test]
+fn test_date_valid_day_colon() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -td -s colon", "2024:04:27")
+}
+
+#[test]
+fn test_date_valid_month_colon() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -tm -s colon", "2024:04")
+}
+
+#[test]
+fn test_date_valid_year_colon() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -ty -s colon", "2024")
+}
+
+#[test]
+fn test_date_valid_day_slash() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -td -s slash", "2024/04/27")
+}
+
+#[test]
+fn test_date_valid_month_slash() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -tm -s slash", "2024/04")
+}
+
+#[test]
+fn test_date_valid_year_slash() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stdout("20240427 -ty -s slash", "2024")
+}
+
+#[test]
 fn test_date_valid_day_newline() -> Result<(), Box<dyn std::error::Error>> {
     test_on_stdout("20240427 -td -n", "20240427\n")
 }
