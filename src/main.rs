@@ -60,7 +60,7 @@ use datetag::DateTagType;
 )]
 
 struct Args {
-    /// Reference date, using today is not specified (e.g. 'yyyymmdd', 'yyyymm', 
+    /// Reference date, using today is not specified (e.g. 'yyyymmdd', 'yyyymm',
     /// 'yyyy', allowed field separators: '.-/:').
     #[arg(value_parser=utils::try_date_from_str)]
     date: Option<NaiveDate>,
