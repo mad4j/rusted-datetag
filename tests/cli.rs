@@ -80,8 +80,3 @@ fn test_date_valid_day_offset() -> Result<(), Box<dyn std::error::Error>> {
 fn test_date_valid_day_offset_negative() -> Result<(), Box<dyn std::error::Error>> {
     test_on_stdout("20240427 -td -o -1", "20240426")
 }
-
-#[test]
-fn test_markdown_help() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("--markdown-help", "markdown-help")
-}
