@@ -38,6 +38,7 @@
 
 mod datestyle;
 mod datetag;
+mod texts;
 mod utils;
 
 use anyhow::{Context, Result};
@@ -50,19 +51,19 @@ use datetag::DateTagType;
 #[derive(Debug, Parser)]
 #[command(
     name = "datetag",
+    author = "Daniele Olmisani <daniele.olmisani@gmail.com>",
     version,
-    about = r#"Display a customizable date tag (e.g. TEST_202404)
-
-EXAMPLES:
- 
-    $ datetag --offset 22 --date 20220312 --prefix 'TEST_' --tag-type daily
-    TEST_20220403
-
-    $ datetag -o 22 -d 20220312 -p 'TEST_' -t d
-    TEST_20220403"#
+    about = texts::ABOUT,
+    long_about = None,
+    after_help = format!("by {}", texts::AUTHORS),
+    after_long_help = format!("{}\nby {}",texts::EXAMPLES, texts::AUTHORS),
 )]
 
 struct Opt {
+    /// Reference date (e.g. 'yyyymmdd', 'yyyymm', 'yyyy', allowed field separators: '.-/:')
+    #[arg(value_parser=utils::try_date_from_str)]
+    date: Option<NaiveDate>,
+
     /// Tag type [d | m | y | daily | monthly | yearly]
     #[arg(value_enum, short, long, default_value_t = DateTagType::M)]
     tag_type: DateTagType,
@@ -78,10 +79,6 @@ struct Opt {
     /// Tag suffix (e.g. '202404_rel')
     #[arg(short = 'x', long)]
     suffix: Option<String>,
-
-    /// Date value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
-    #[arg(short, long, value_parser=utils::try_date_from_str)]
-    date: Option<NaiveDate>,
 
     /// Date offset (offset unit depends on -t value)
     #[arg(short, long, allow_hyphen_values = true, default_value_t = 0)]

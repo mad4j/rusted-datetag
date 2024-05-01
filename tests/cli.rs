@@ -28,57 +28,57 @@ fn test_default_args() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn test_date_valid_default() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427", "202404")
+    test_on_stdout("20240427", "202404")
 }
 
 #[test]
 fn test_date_valid_day() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td", "20240427")
+    test_on_stdout("20240427 -td", "20240427")
 }
 
 #[test]
 fn test_date_valid_month() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -tm", "202404")
+    test_on_stdout("20240427 -tm", "202404")
 }
 
 #[test]
 fn test_date_valid_year() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -ty", "2024")
+    test_on_stdout("20240427 -ty", "2024")
 }
 
 #[test]
 fn test_date_valid_day_newline() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td -n", "20240427\n")
+    test_on_stdout("20240427 -td -n", "20240427\n")
 }
 
 #[test]
 fn test_date_valid_day_prefix() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td -p LAB_", "LAB_20240427")
+    test_on_stdout("20240427 -td -p LAB_", "LAB_20240427")
 }
 
 #[test]
 fn test_date_valid_day_suffix() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td -x _rel", "20240427_rel")
+    test_on_stdout("20240427 -td -x _rel", "20240427_rel")
 }
 
 #[test]
 fn test_date_valid_day_prefix_and_suffix() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td -p LAB- -x _rel", "LAB-20240427_rel")
+    test_on_stdout("20240427 -td -p LAB- -x _rel", "LAB-20240427_rel")
 }
 
 #[test]
 fn test_date_valid_day_repeat() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td -r3 -o1", "20240427\n20240428\n20240429\n")
+    test_on_stdout("20240427 -td -r3 -o1", "20240427\n20240428\n20240429\n")
 }
 
 #[test]
 fn test_date_valid_day_offset() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td -o 1", "20240428")
+    test_on_stdout("20240427 -td -o 1", "20240428")
 }
 
 #[test]
 fn test_date_valid_day_offset_negative() -> Result<(), Box<dyn std::error::Error>> {
-    test_on_stdout("-d 20240427 -td -o -1", "20240426")
+    test_on_stdout("20240427 -td -o -1", "20240426")
 }
 
 #[test]
