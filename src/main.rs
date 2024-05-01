@@ -64,11 +64,11 @@ EXAMPLES:
 
 struct Opt {
     /// Tag type [d | m | y | daily | monthly | yearly]
-    #[arg(value_enum, short, long, default_value = "m")]
+    #[arg(value_enum, short, long, default_value_t = DateTagType::M)]
     tag_type: DateTagType,
 
     /// Date tag style
-    #[arg(value_enum, short, long, default_value = "plain")]
+    #[arg(value_enum, short, long, default_value_t = DateStyle::Plain)]
     style: DateStyle,
 
     /// Tag prefix (e.g. 'LAB_202404')
@@ -84,15 +84,15 @@ struct Opt {
     date: Option<NaiveDate>,
 
     /// Date offset (offset unit depends on -t value)
-    #[arg(short, long, allow_hyphen_values = true, default_value = "0")]
+    #[arg(short, long, allow_hyphen_values = true, default_value_t = 0)]
     offset: i32,
 
     /// Generate more date tags
-    #[arg(short, long, default_value = "1")]
+    #[arg(short, long, default_value_t = 1)]
     repeat: u8,
 
     /// Append an end-of-line to each generated tag
-    #[arg(short, long, default_value = "false")]
+    #[arg(short, long, default_value_t = false)]
     new_line: bool,
 
     /// Print this help as markdown document
