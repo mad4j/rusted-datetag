@@ -65,37 +65,37 @@ mod tests {
         let d = DateTagType::Y;
         assert!(d.get_format(DateStyle::Plain) == "%Y");
     }
-    
+
     #[test]
     fn test_get_format_year_dot() {
-         // test year-related variants
+        // test year-related variants
         let d = DateTagType::Yearly;
         assert!(d.get_format(DateStyle::Dot) == "%Y");
         let d = DateTagType::Y;
         assert!(d.get_format(DateStyle::Dot) == "%Y");
     }
-    
+
     #[test]
     fn test_get_format_year_slash() {
-         // test year-related variants
+        // test year-related variants
         let d = DateTagType::Yearly;
         assert!(d.get_format(DateStyle::Slash) == "%Y");
         let d = DateTagType::Y;
         assert!(d.get_format(DateStyle::Slash) == "%Y");
     }
-    
+
     #[test]
     fn test_get_format_year_colon() {
-         // test year-related variants
+        // test year-related variants
         let d = DateTagType::Yearly;
         assert!(d.get_format(DateStyle::Colon) == "%Y");
         let d = DateTagType::Y;
         assert!(d.get_format(DateStyle::Colon) == "%Y");
     }
-    
+
     #[test]
     fn test_get_format_year_dash() {
-         // test year-related variants
+        // test year-related variants
         let d = DateTagType::Yearly;
         assert!(d.get_format(DateStyle::Dash) == "%Y");
         let d = DateTagType::Y;
@@ -110,7 +110,7 @@ mod tests {
         let d = DateTagType::M;
         assert!(d.get_format(DateStyle::Plain) == "%Y%m");
     }
-    
+
     #[test]
     fn test_get_format_month_dot() {
         // test month-related variants
@@ -119,7 +119,7 @@ mod tests {
         let d = DateTagType::M;
         assert!(d.get_format(DateStyle::Dot) == "%Y.%m");
     }
-    
+
     #[test]
     fn test_get_format_month_slash() {
         // test month-related variants
@@ -128,7 +128,7 @@ mod tests {
         let d = DateTagType::M;
         assert!(d.get_format(DateStyle::Slash) == "%Y/%m");
     }
-    
+
     #[test]
     fn test_get_format_mont_colon() {
         // test month-related variants
@@ -137,7 +137,7 @@ mod tests {
         let d = DateTagType::M;
         assert!(d.get_format(DateStyle::Colon) == "%Y:%m");
     }
-    
+
     #[test]
     fn test_get_format_month_dash() {
         // test month-related variants
@@ -155,7 +155,7 @@ mod tests {
         let d = DateTagType::D;
         assert!(d.get_format(DateStyle::Plain) == "%Y%m%d");
     }
-    
+
     #[test]
     fn test_get_format_day_dot() {
         // test day-related variants
@@ -164,7 +164,7 @@ mod tests {
         let d = DateTagType::D;
         assert!(d.get_format(DateStyle::Dot) == "%Y.%m.%d");
     }
-  
+
     #[test]
     fn test_get_format_day_slash() {
         // test day-related variants
@@ -173,7 +173,7 @@ mod tests {
         let d = DateTagType::D;
         assert!(d.get_format(DateStyle::Slash) == "%Y/%m/%d");
     }
-  
+
     #[test]
     fn test_get_format_day_colon() {
         // test day-related variants
@@ -182,7 +182,7 @@ mod tests {
         let d = DateTagType::D;
         assert!(d.get_format(DateStyle::Colon) == "%Y:%m:%d");
     }
-     
+
     #[test]
     fn test_get_format_day_dash() {
         // test day-related variants

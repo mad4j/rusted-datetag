@@ -8,7 +8,6 @@ pub fn try_date_from_str(s: &str) -> Result<NaiveDate, &'static str> {
 }
 
 pub fn checked_date_from_str(s: &str) -> Option<NaiveDate> {
-
     // remove any non-digit character
     let re = Regex::new("[^0-9]").unwrap();
     let mut temp = re.replace_all(s, "").to_string();
@@ -131,7 +130,6 @@ mod tests {
         assert_eq!(d.month(), 4);
         assert_eq!(d.day(), 3);
     }
-
 
     #[test]
     fn test_try_date_from_str_invalid() {
