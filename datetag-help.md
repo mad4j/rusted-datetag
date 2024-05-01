@@ -8,7 +8,7 @@ This document contains the help content for the `datetag` command-line program.
 
 ## `datetag`
 
-display a customizable date tag (e.g. TEST_202110)
+Display a customizable date tag (e.g. TEST_202404)
 
 EXAMPLES:
  
@@ -22,7 +22,7 @@ EXAMPLES:
 
 ###### **Options:**
 
-* `-t`, `--tag-type <TAG_TYPE>` — tag type [d | m | y | daily | monthly | yearly]
+* `-t`, `--tag-type <TAG_TYPE>` — Tag type [d | m | y | daily | monthly | yearly]
 
   Default value: `m`
 
@@ -37,21 +37,38 @@ EXAMPLES:
   - `daily`:
     daily tags (e.g. 20221230)
 
-* `-p`, `--prefix <PREFIX>` — tag prefix
-* `-d`, `--date <DATE>` — date tag value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
-* `-o`, `--offset <OFFSET>` — date tag offset
+* `-s`, `--style <STYLE>` — Date tag style
+
+  Default value: `plain`
+
+  Possible values:
+  - `plain`:
+    yyyymmdd
+  - `dot`:
+    yyyy.mm.dd
+  - `slash`:
+    yyyy/mm/dd
+  - `colon`:
+    yyyy:mm:dd
+  - `dash`:
+    yyyy-mm-dd
+
+* `-p`, `--prefix <PREFIX>` — Tag prefix (e.g. 'LAB_202404')
+* `-x`, `--suffix <SUFFIX>` — Tag suffix (e.g. '202404_rel')
+* `-d`, `--date <DATE>` — Date value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
+* `-o`, `--offset <OFFSET>` — Date offset (offset unit depends on -t value)
 
   Default value: `0`
-* `-r`, `--repeat <REPEAT>` — generate more date tags
+* `-r`, `--repeat <REPEAT>` — Generate more date tags
 
   Default value: `1`
-* `-n`, `--new-line` — append an end-of-line
+* `-n`, `--new-line` — Append an end-of-line to each generated tag
 
   Default value: `false`
 
   Possible values: `true`, `false`
 
-* `--markdown-help` — print this help as markdown document
+* `--markdown-help` — Print this help as markdown document
 
   Possible values: `true`, `false`
 

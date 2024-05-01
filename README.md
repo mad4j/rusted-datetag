@@ -9,7 +9,7 @@
 Display a customizable date tag (e.g. TEST_202404)
 
 EXAMPLES:
-
+ 
     $ datetag --offset 22 --date 20220312 --prefix 'TEST_' --tag-type daily
     TEST_20220403
 
@@ -32,11 +32,23 @@ Options:
           - d
           - daily:   daily tags (e.g. 20221230)
 
-  -p, --prefix <PREFIX>
-          Tag prefix (e.g. 'LAB_202404)
+  -s, --style <STYLE>
+          Date tag style
 
-  -s, --suffix <SUFFIX>
-          Tag suffix (e.g. '202404_rel)
+          [default: plain]
+
+          Possible values:
+          - plain: yyyymmdd
+          - dot:   yyyy.mm.dd
+          - slash: yyyy/mm/dd
+          - colon: yyyy:mm:dd
+          - dash:  yyyy-mm-dd
+
+  -p, --prefix <PREFIX>
+          Tag prefix (e.g. 'LAB_202404')
+
+  -x, --suffix <SUFFIX>
+          Tag suffix (e.g. '202404_rel')
 
   -d, --date <DATE>
           Date value (one of 'yyyymmdd', 'yyyymm', 'yyyy')
