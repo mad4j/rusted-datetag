@@ -59,8 +59,9 @@ use datetag::DateTagType;
     after_long_help = format!("{}\nby {}",texts::EXAMPLES, texts::AUTHORS),
 )]
 
-struct Opt {
-    /// Reference date (e.g. 'yyyymmdd', 'yyyymm', 'yyyy', allowed field separators: '.-/:')
+struct Args {
+    /// Reference date, using today is not specified (e.g. 'yyyymmdd', 'yyyymm', 
+    /// 'yyyy', allowed field separators: '.-/:').
     #[arg(value_parser=utils::try_date_from_str)]
     date: Option<NaiveDate>,
 
@@ -85,8 +86,8 @@ struct Opt {
     offset: i32,
 
     /// Generate more date tags
-    #[arg(short, long, default_value_t = 1)]
-    repeat: u8,
+    #[arg(short, long, value_parser=clap::value_parser!(u8).range(1..))]
+    repeat: Option<u8>,
 
     /// Append an end-of-line to each generated tag
     #[arg(short, long, default_value_t = false)]
@@ -95,43 +96,46 @@ struct Opt {
 
 fn main() -> Result<()> {
     // parse command-line parameters
-    let opt = Opt::parse();
+    let args = Args::parse();
 
     // parse date related parameters
-    let mut date = opt
+    let mut date = args
         .date
         .unwrap_or_else(|| Local::now().naive_local().date());
 
     // retrive date tag prefix label
-    let prefix = opt.prefix.unwrap_or_default();
+    let prefix = args.prefix.unwrap_or_default();
 
     // retrive date tag suffix label
-    let suffix = opt.suffix.unwrap_or_default();
+    let suffix = args.suffix.unwrap_or_default();
+
+    // retrive repeat value
+    let repeat = args.repeat.unwrap_or(1);
 
     // with no repetitions, apply offset immediately
-    if opt.repeat == 1 {
+    if repeat == 1 {
         // apply date offset
-        date = utils::checked_add_offset(&date, opt.offset, &opt.tag_type)
+        date = utils::checked_add_offset(&date, args.offset, &args.tag_type)
             .with_context(|| "wrong date offset".to_string())?;
     }
 
     // generate date tags
-    for _ in 1..=opt.repeat {
+    for _ in 1..=repeat {
         // display date tag
         print!(
             "{}{}{}",
             prefix,
-            date.format(opt.tag_type.get_format(opt.style)),
+            date.format(args.tag_type.get_format(args.style)),
             suffix
         );
 
         // append an end-of-line if requested or needed
-        if opt.new_line || opt.repeat > 1 {
+        if args.new_line || repeat > 1 {
             println!();
         }
 
         // apply date offset for the next repetition
-        date = utils::checked_add_offset(&date, opt.offset, &opt.tag_type)
+        date = utils::checked_add_offset(&date, args.offset, &args.tag_type)
             .with_context(|| "wrong date offset".to_string())?;
     }
 
