@@ -10,6 +10,7 @@ homepage = "https://mad4j.github.io/rusted-datetag/"
 repository = "https://github.com/mad4j/rusted-datetag"
 keywords = ["cli", "date", "tag"]
 categories = ["command-line-utilities"]
+exclude = ["/resources"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
