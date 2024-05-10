@@ -1,4 +1,5 @@
 use assert_cmd::prelude::*;
+use assert_fs::prelude::*;
 use predicates::prelude::*;
 use std::process::Command;
 
@@ -15,6 +16,18 @@ fn test_on_stdout(args: &str, result: &str) -> Result<(), Box<dyn std::error::Er
     Ok(())
 }
 
+fn test_on_stderr(args: &str, result: &str) -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin("datetag")?;
+
+    cmd.args(args.split(' '))
+        .assert()
+        .failure()
+        .stderr(predicate::str::contains(result));
+
+    Ok(())
+}
+
+
 #[test]
 fn test_default_args() -> Result<(), Box<dyn std::error::Error>> {
     let d = format!("{}", Local::now().naive_local().date().format("%Y%m"));
@@ -24,6 +37,23 @@ fn test_default_args() -> Result<(), Box<dyn std::error::Error>> {
     cmd.assert().success().stdout(predicate::str::contains(d));
 
     Ok(())
+}
+
+#[test]
+fn test_file_valid_default() -> Result<(), Box<dyn std::error::Error>> {
+
+    let file = assert_fs::NamedTempFile::new("sample.txt")?;
+    file.write_str("A test\nActual content\nMore content\nAnother test")?;
+
+    let date = format!("{}", Local::now().naive_local().date().format("%Y%m"));
+    let args = format!("-f {}", file.path().to_str().unwrap_or_default());
+
+    test_on_stdout(&args, &date)
+}
+
+#[test]
+fn test_file_invalid_default() -> Result<(), Box<dyn std::error::Error>> {
+    test_on_stderr("-f fake.txt", "Error")
 }
 
 #[test]
