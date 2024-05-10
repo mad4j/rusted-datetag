@@ -26,11 +26,7 @@ pub fn checked_date_from_str(s: &str) -> Option<NaiveDate> {
     NaiveDate::parse_from_str(&temp, "%Y%m%d").ok()
 }
 
-pub fn checked_add_offset(
-    date: &NaiveDate,
-    offset: i32,
-    tag_type: &DateTag,
-) -> Option<NaiveDate> {
+pub fn checked_add_offset(date: &NaiveDate, offset: i32, tag_type: &DateTag) -> Option<NaiveDate> {
     // apply date offset
     match tag_type {
         DateTag::Yearly | DateTag::Y => {
@@ -47,9 +43,7 @@ pub fn checked_add_offset(
                 date.checked_sub_months(Months::new(-offset as u32))
             }
         }
-        DateTag::Daily | DateTag::D => {
-            date.checked_add_signed(Duration::days(offset as i64))
-        }
+        DateTag::Daily | DateTag::D => date.checked_add_signed(Duration::days(offset as i64)),
     }
 }
 

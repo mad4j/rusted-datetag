@@ -41,8 +41,10 @@ mod datetag;
 mod texts;
 mod utils;
 
+use std::{fs, path::PathBuf};
+
 use anyhow::{Context, Result};
-use chrono::{Local, NaiveDate};
+use chrono::{DateTime, Local, NaiveDate, Utc};
 use clap::Parser;
 
 use datestyle::DateStyle;
@@ -55,7 +57,7 @@ use datetag::DateTag;
     about = texts::ABOUT,
     long_about = None,
     after_help = format!("by {}", texts::AUTHORS),
-    after_long_help = format!("{}\nby {}",texts::EXAMPLES, texts::AUTHORS),
+    after_long_help = format!("{}\nby {}", texts::EXAMPLES, texts::AUTHORS),
 )]
 
 struct Args {
@@ -84,6 +86,10 @@ struct Args {
     #[arg(short, long, allow_hyphen_values = true, default_value_t = 0)]
     offset: i32,
 
+    /// Use provided file modification date as reference
+    #[arg(short, long, conflicts_with = "date")]
+    file: Option<PathBuf>,
+
     /// Generate more date tags
     #[arg(short, long, value_parser=clap::value_parser!(u8).range(1..))]
     repeat: Option<u8>,
@@ -97,10 +103,15 @@ fn main() -> Result<()> {
     // parse command-line parameters
     let args = Args::parse();
 
-    // parse date related parameters
-    let mut date = args
-        .date
-        .unwrap_or_else(|| Local::now().naive_local().date());
+    // retrieve reference date
+    let mut date = if let Some(file) = args.file {
+        // retrieve reference date from specified file metadata
+        DateTime::<Utc>::from(fs::metadata(file)?.modified()?).date_naive()
+    } else {
+        // retrieve reference date from date args, otherwise use current date
+        args.date
+            .unwrap_or_else(|| Local::now().naive_local().date())
+    };
 
     // retrive date tag prefix label
     let prefix = args.prefix.unwrap_or_default();
