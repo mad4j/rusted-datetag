@@ -7,6 +7,9 @@ pub enum DateTag {
     Y,
     /// yearly tags (e.g. 2022)
     Yearly,
+    W,
+    /// weekly ISO 8601 tags (e.g. 202234)
+    Weekly,
     M,
     /// monthly tags (e.g. 202212)
     Monthly,
@@ -19,6 +22,7 @@ pub enum DateTag {
 impl DateTag {
     pub fn get_format(&self, style: DateStyle) -> &str {
         match (self, style) {
+            // Yealy tags
             (DateTag::Y, DateStyle::Plain) => "%Y",
             (DateTag::Y, DateStyle::Dot) => "%Y",
             (DateTag::Y, DateStyle::Slash) => "%Y",
@@ -29,6 +33,7 @@ impl DateTag {
             (DateTag::Yearly, DateStyle::Slash) => "%Y",
             (DateTag::Yearly, DateStyle::Colon) => "%Y",
             (DateTag::Yearly, DateStyle::Dash) => "%Y",
+            // Monthly tags
             (DateTag::M, DateStyle::Plain) => "%Y%m",
             (DateTag::M, DateStyle::Dot) => "%Y.%m",
             (DateTag::M, DateStyle::Slash) => "%Y/%m",
@@ -39,6 +44,18 @@ impl DateTag {
             (DateTag::Monthly, DateStyle::Slash) => "%Y/%m",
             (DateTag::Monthly, DateStyle::Colon) => "%Y:%m",
             (DateTag::Monthly, DateStyle::Dash) => "%Y-%m",
+            // Weekly tags
+            (DateTag::W, DateStyle::Plain) => "%G%V",
+            (DateTag::W, DateStyle::Dot) => "%G.%V",
+            (DateTag::W, DateStyle::Slash) => "%G/%V",
+            (DateTag::W, DateStyle::Colon) => "%G:%V",
+            (DateTag::W, DateStyle::Dash) => "%G-%V",
+            (DateTag::Weekly, DateStyle::Plain) => "%G%V",
+            (DateTag::Weekly, DateStyle::Dot) => "%G.%V",
+            (DateTag::Weekly, DateStyle::Slash) => "%G/%V",
+            (DateTag::Weekly, DateStyle::Colon) => "%G:%V",
+            (DateTag::Weekly, DateStyle::Dash) => "%G-%V",
+            // Dayly tags
             (DateTag::D, DateStyle::Plain) => "%Y%m%d",
             (DateTag::D, DateStyle::Dot) => "%Y.%m.%d",
             (DateTag::D, DateStyle::Slash) => "%Y/%m/%d",
@@ -130,7 +147,7 @@ mod tests {
     }
 
     #[test]
-    fn test_get_format_mont_colon() {
+    fn test_get_format_month_colon() {
         // test month-related variants
         let d = DateTag::Monthly;
         assert!(d.get_format(DateStyle::Colon) == "%Y:%m");
@@ -145,6 +162,51 @@ mod tests {
         assert!(d.get_format(DateStyle::Dash) == "%Y-%m");
         let d = DateTag::M;
         assert!(d.get_format(DateStyle::Dash) == "%Y-%m");
+    }
+
+    #[test]
+    fn test_get_format_week_plain() {
+        // test month-related variants
+        let d = DateTag::Weekly;
+        assert!(d.get_format(DateStyle::Plain) == "%G%V");
+        let d = DateTag::W;
+        assert!(d.get_format(DateStyle::Plain) == "%G%V");
+    }
+
+    #[test]
+    fn test_get_format_week_dot() {
+        // test month-related variants
+        let d = DateTag::Weekly;
+        assert!(d.get_format(DateStyle::Dot) == "%G.%V");
+        let d = DateTag::W;
+        assert!(d.get_format(DateStyle::Dot) == "%G.%V");
+    }
+
+    #[test]
+    fn test_get_format_week_slash() {
+        // test month-related variants
+        let d = DateTag::Weekly;
+        assert!(d.get_format(DateStyle::Slash) == "%G/%V");
+        let d = DateTag::W;
+        assert!(d.get_format(DateStyle::Slash) == "%G/%V");
+    }
+
+    #[test]
+    fn test_get_format_week_colon() {
+        // test month-related variants
+        let d = DateTag::Weekly;
+        assert!(d.get_format(DateStyle::Colon) == "%G:%V");
+        let d = DateTag::W;
+        assert!(d.get_format(DateStyle::Colon) == "%G:%V");
+    }
+
+    #[test]
+    fn test_get_format_week_dash() {
+        // test month-related variants
+        let d = DateTag::Weekly;
+        assert!(d.get_format(DateStyle::Dash) == "%G-%V");
+        let d = DateTag::W;
+        assert!(d.get_format(DateStyle::Dash) == "%G-%V");
     }
 
     #[test]

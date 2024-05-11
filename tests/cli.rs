@@ -27,7 +27,6 @@ fn test_on_stderr(args: &str, result: &str) -> Result<(), Box<dyn std::error::Er
     Ok(())
 }
 
-
 #[test]
 fn test_default_args() -> Result<(), Box<dyn std::error::Error>> {
     let d = format!("{}", Local::now().naive_local().date().format("%Y%m"));
@@ -41,7 +40,6 @@ fn test_default_args() -> Result<(), Box<dyn std::error::Error>> {
 
 #[test]
 fn test_file_valid_default() -> Result<(), Box<dyn std::error::Error>> {
-
     let file = assert_fs::NamedTempFile::new("sample.txt")?;
     file.write_str("A test\nActual content\nMore content\nAnother test")?;
 

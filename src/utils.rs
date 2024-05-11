@@ -1,4 +1,4 @@
-use chrono::{Duration, Months, NaiveDate};
+use chrono::{Months, NaiveDate, TimeDelta};
 use regex::Regex;
 
 use crate::datetag::DateTag;
@@ -36,6 +36,7 @@ pub fn checked_add_offset(date: &NaiveDate, offset: i32, tag_type: &DateTag) -> 
                 date.checked_sub_months(Months::new((-offset * 12) as u32))
             }
         }
+        DateTag::W | DateTag::Weekly => date.checked_add_signed(TimeDelta::days(7 * offset as i64)),
         DateTag::Monthly | DateTag::M => {
             if offset > 0 {
                 date.checked_add_months(Months::new(offset as u32))
@@ -43,7 +44,7 @@ pub fn checked_add_offset(date: &NaiveDate, offset: i32, tag_type: &DateTag) -> 
                 date.checked_sub_months(Months::new(-offset as u32))
             }
         }
-        DateTag::Daily | DateTag::D => date.checked_add_signed(Duration::days(offset as i64)),
+        DateTag::Daily | DateTag::D => date.checked_add_signed(TimeDelta::days(offset as i64)),
     }
 }
 

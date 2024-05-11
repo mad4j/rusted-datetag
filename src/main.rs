@@ -57,7 +57,7 @@ use datetag::DateTag;
     about = texts::ABOUT,
     long_about = None,
     after_help = format!("by {}", texts::AUTHORS),
-    after_long_help = format!("{}\nby {}", texts::EXAMPLES, texts::AUTHORS),
+    after_long_help = format!("{}\n{}\nby {}", texts::EXAMPLES, texts::NOTES, texts::AUTHORS),
 )]
 
 struct Args {
@@ -97,6 +97,10 @@ struct Args {
     /// Append an end-of-line to each generated tag
     #[arg(short, long, default_value_t = false)]
     new_line: bool,
+
+    /// Custom date reference format string, override --style value
+    #[arg(long)]
+    format: Option<String>,
 }
 
 fn main() -> Result<()> {
@@ -113,14 +117,19 @@ fn main() -> Result<()> {
             .unwrap_or_else(|| Local::now().naive_local().date())
     };
 
-    // retrive date tag prefix label
+    // retrieve date tag prefix label
     let prefix = args.prefix.unwrap_or_default();
 
-    // retrive date tag suffix label
+    // retrieve date tag suffix label
     let suffix = args.suffix.unwrap_or_default();
 
-    // retrive repeat value
+    // retrieve repeat value
     let repeat = args.repeat.unwrap_or(1);
+
+    // retrieve date reference format string
+    let format = args
+        .format
+        .unwrap_or(String::from(args.tag_type.get_format(args.style)));
 
     // with no repetitions, apply offset immediately
     if repeat == 1 {
@@ -135,7 +144,8 @@ fn main() -> Result<()> {
         print!(
             "{}{}{}",
             prefix,
-            date.format(args.tag_type.get_format(args.style)),
+            //date.format(args.tag_type.get_format(args.style)),
+            date.format(&format),
             suffix
         );
 

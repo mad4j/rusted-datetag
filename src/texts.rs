@@ -6,10 +6,23 @@ pub const ABOUT: &'static str =
 
 pub const EXAMPLES: &'static str = color_print::cstr!(
     r#"<s><u>Examples</u></s>:
-    $ <s>datetag</> 20220312 --offset 22 --prefix 'TEST_' --tag-type daily
-    TEST_20220403
+    $ <s>datetag</> 20240312 --offset 22 --prefix 'TEST_' --tag-type daily
+    TEST_20240403
 
-    $ <s>datetag</> 20220312 -o 22 -p 'TEST_' -td
-    TEST_20220403
+    $ <s>datetag</> 20240312 -o 22 -p 'TEST_' -td
+    TEST_20240403
+
+    $ <s>datetag</> 20240312 -o 2 -r3 -td -s dot
+    2024.03.12
+    2024.03.14
+    2024.03.16
 "#
 );
+
+pub const NOTES: &'static str = color_print::cstr!(
+    r#"<s><u>Notes</u></s>:
+    Argument '--format' use string format from:
+    https://docs.rs/chrono/latest/chrono/format/strftime/index.html
+"#
+);
+
