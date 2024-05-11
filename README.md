@@ -12,7 +12,7 @@ Usage: datetag.exe [OPTIONS] [DATE]
 
 Arguments:
   [DATE]
-          Reference date (e.g. 'yyyymmdd', 'yyyymm', 'yyyy', allowed field separators: '.-/:')
+          Reference date, using today is not specified (e.g. 'yyyymmdd', 'yyyymm', 'yyyy', allowed field separators: '.-/:')
 
 Options:
   -t, --tag-type <TAG_TYPE>
@@ -23,6 +23,8 @@ Options:
           Possible values:
           - y
           - yearly:  yearly tags (e.g. 2022)
+          - w
+          - weekly:  weekly ISO 8601 tags (e.g. 202234)
           - m
           - monthly: monthly tags (e.g. 202212)
           - d
@@ -51,13 +53,17 @@ Options:
 
           [default: 0]
 
+  -f, --file <FILE>
+          Use provided file modification date as reference
+
   -r, --repeat <REPEAT>
           Generate more date tags
 
-          [default: 1]
-
   -n, --new-line
           Append an end-of-line to each generated tag
+
+      --format <FORMAT>
+          Custom date reference format string, override --style value
 
   -h, --help
           Print help (see a summary with '-h')
@@ -66,12 +72,18 @@ Options:
           Print version
 
 Examples:
+    $ datetag 20240312 --offset 22 --prefix 'TEST_' --tag-type daily
+    TEST_20240403
 
-    $ datetag 20220312 --offset 22 --prefix 'TEST_' --tag-type daily
-    TEST_20220403
+    $ datetag 20240312 -o 22 -p 'TEST_' -td
+    TEST_20240403
 
-    $ datetag 20220312 -o 22 -p 'TEST_' -td
-    TEST_20220403
+    $ datetag 20240312 -o 2 -r3 -td -s dot
+    2024.03.12
+    2024.03.14
+    2024.03.16
 
-by Daniele Olmisani - daniele.olmisani@gmail.com
+Notes:
+    Argument '--format' use string format from:
+    https://docs.rs/chrono/latest/chrono/format/strftime/index.html
 ```
