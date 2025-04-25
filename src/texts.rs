@@ -1,10 +1,10 @@
-pub const AUTHORS: &'static str =
+pub const AUTHORS: &str =
     color_print::cstr!("<s>Daniele Olmisani</s> - <u>daniele.olmisani@gmail.com</u>");
 
-pub const ABOUT: &'static str =
+pub const ABOUT: &str =
     color_print::cstr!("Display a customizable date tag (e.g. <i>TEST_202404</i>, <i>2024-04-03_rel</i>, <i>2024.04.03</i>)");
 
-pub const EXAMPLES: &'static str = color_print::cstr!(
+pub const EXAMPLES: &str = color_print::cstr!(
     r#"<s><u>Examples</u></s>:
     $ <s>datetag</> 20240312 --offset 22 --prefix 'TEST_' --tag-type daily
     TEST_20240403
@@ -19,7 +19,7 @@ pub const EXAMPLES: &'static str = color_print::cstr!(
 "#
 );
 
-pub const NOTES: &'static str = color_print::cstr!(
+pub const NOTES: &str = color_print::cstr!(
     r#"<s><u>Notes</u></s>:
     Argument '--format' use string format from:
     https://docs.rs/chrono/latest/chrono/format/strftime/index.html

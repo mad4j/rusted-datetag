@@ -25,6 +25,7 @@
 //!  * years
 //!  * months
 //!  * days
+//! 
 //! depending on the datetag type.
 //!
 //! In case of generation of a single datetag then the offset will
@@ -59,7 +60,6 @@ use datetag::DateTag;
     after_help = format!("by {}", texts::AUTHORS),
     after_long_help = format!("{}\n{}\nby {}", texts::EXAMPLES, texts::NOTES, texts::AUTHORS),
 )]
-
 struct Args {
     /// Reference date, using today is not specified (e.g. 'yyyymmdd', 'yyyymm',
     /// 'yyyy', allowed field separators: '.-/:').
